@@ -88,6 +88,8 @@ class Document:
                 boxes.append(points)
                 transcripts.append(transcript)
 
+        self.bt_data = boxes_and_transcripts_data
+
         # Limit the number of boxes and number of transcripts to process.
         boxes_num = min(len(boxes), MAX_BOXES_NUM)
         transcript_len = min(max([len(t) for t in transcripts[:boxes_num]]), MAX_TRANSCRIPT_LEN)

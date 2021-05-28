@@ -225,6 +225,11 @@ class BatchCollateFn(object):
         # For easier debug.
         filenames = [doc.image_filename for doc in batch_list]
 
+        # For output with coordinates
+        bt_data = {}
+        for b in batch_list:
+            bt_data[Path(b.image_filename).stem] = b.bt_data
+
         # Convert the data into dict.
         if self.training:
             batch = dict(whole_image=image_batch_tensor,
@@ -243,6 +248,7 @@ class BatchCollateFn(object):
                          boxes_coordinate=boxes_coordinate_batch_tensor,
                          mask=mask_batch_tensor,
                          image_indexs=image_indexs_tensor,
-                         filenames=filenames)
+                         filenames=filenames,
+                         bt_data=bt_data)
 
         return batch
