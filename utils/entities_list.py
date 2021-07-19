@@ -11,7 +11,7 @@ Entities_list = [
     'vend_tel',
     'vend_fax',
     'vend_mail',
-    'vend_zip'
+    'vend_zip',
     'inv_date',
     'acc_bank',
     'acc_branch',
