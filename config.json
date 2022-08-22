@@ -22,8 +22,7 @@
                 "dropout": 0.1,
                 "image_encoder": "resnet50",
                 "roi_pooling_mode": "roi_align",
-                "roi_pooling_size": [7,7],
-                "pretrained": false
+                "roi_pooling_size": [7,7]
             },
             "graph_kwargs":{
                 "in_dim":-1,
