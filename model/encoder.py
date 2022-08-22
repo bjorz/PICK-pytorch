@@ -27,7 +27,8 @@ class Encoder(nn.Module):
                  max_len: int = 100,
                  image_encoder: str = 'resnet50',
                  roi_pooling_mode: str = 'roi_align',
-                 roi_pooling_size: Tuple[int, int] = (7, 7)):
+                 roi_pooling_size: Tuple[int, int] = (7, 7),
+                 pretrained: bool = False):
         '''
         convert image segments and text segments to node embedding.
         :param char_embedding_dim:
@@ -58,15 +59,15 @@ class Encoder(nn.Module):
         self.transformer_encoder = nn.TransformerEncoder(transformer_encoder_layer, num_layers=nlayers)
 
         if image_encoder == 'resnet18':
-            self.cnn = resnet.resnet18(output_channels=image_feature_dim)
+            self.cnn = resnet.resnet18(pretrained=pretrained, output_channels=image_feature_dim)
         elif image_encoder == 'resnet34':
-            self.cnn = resnet.resnet34(output_channels=image_feature_dim)
+            self.cnn = resnet.resnet34(pretrained=pretrained, output_channels=image_feature_dim)
         elif image_encoder == 'resnet50':
-            self.cnn = resnet.resnet50(output_channels=image_feature_dim)
+            self.cnn = resnet.resnet50(pretrained=pretrained, output_channels=image_feature_dim)
         elif image_encoder == 'resnet101':
-            self.cnn = resnet.resnet101(output_channels=image_feature_dim)
+            self.cnn = resnet.resnet101(pretrained=pretrained, output_channels=image_feature_dim)
         elif image_encoder == 'resnet152':
-            self.cnn = resnet.resnet152(output_channels=image_feature_dim)
+            self.cnn = resnet.resnet152(pretrained=pretrained, output_channels=image_feature_dim)
         else:
             raise NotImplementedError()
 
