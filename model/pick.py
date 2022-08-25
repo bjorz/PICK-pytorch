@@ -7,6 +7,7 @@ from typing import *
 import torch
 import torch.nn as nn
 import numpy as np
+import gensim
 
 from .encoder import Encoder
 from .graph import GLCN
@@ -22,13 +23,21 @@ class PICKModel(nn.Module):
         encoder_kwargs = kwargs['encoder_kwargs']
         graph_kwargs = kwargs['graph_kwargs']
         decoder_kwargs = kwargs['decoder_kwargs']
-        self.make_model(embedding_kwargs, encoder_kwargs, graph_kwargs, decoder_kwargs)
+        pretrained_kwargs = kwargs['pretrained_kwargs']
+        self.make_model(embedding_kwargs, encoder_kwargs, graph_kwargs, decoder_kwargs, pretrained_kwargs)
 
-    def make_model(self, embedding_kwargs, encoder_kwargs, graph_kwargs, decoder_kwargs):
-        # Given the params of each component, creates components.
-        # embedding_kwargs-> word_emb
-        embedding_kwargs['num_embeddings'] = len(keys_vocab_cls)
-        self.word_emb = nn.Embedding(**embedding_kwargs)
+    def make_model(self, embedding_kwargs, encoder_kwargs, graph_kwargs, decoder_kwargs, pretrained_kwargs):
+
+        if pretrained_kwargs['use_pretrained']:
+            path_to_vec = pretrained_kwargs['path_to_vec']
+            premodel = gensim.models.KeyedVectors.load_word2vec_format(path_to_vec, binary=False)
+            weights = torch.FloatTensor(premodel.vectors)
+            self.word_emb = nn.Embedding.from_pretrained(weights, freeze=False)
+        else:
+            # Given the params of each component, creates components.
+            # embedding_kwargs-> word_emb
+            embedding_kwargs['num_embeddings'] = len(keys_vocab_cls)
+            self.word_emb = nn.Embedding(**embedding_kwargs)
 
         encoder_kwargs['char_embedding_dim'] = embedding_kwargs['embedding_dim']
         self.encoder = Encoder(**encoder_kwargs)

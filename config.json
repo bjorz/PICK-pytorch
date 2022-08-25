@@ -9,6 +9,10 @@
     "model_arch": {
         "type": "PICKModel",
         "args": {
+            "pretrain_kwargs": {
+                "use_pretrained": false,
+                "path_to_vec": "path_to_pretrained"
+            },
             "embedding_kwargs":{
                 "num_embeddings": -1,
                 "embedding_dim": 512
