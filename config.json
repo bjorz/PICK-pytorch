@@ -9,7 +9,7 @@
     "model_arch": {
         "type": "PICKModel",
         "args": {
-            "pretrain_kwargs": {
+            "pretrained_kwargs": {
                 "use_pretrained": false,
                 "path_to_vec": "path_to_pretrained"
             },
